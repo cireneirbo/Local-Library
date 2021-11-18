@@ -3,3 +3,7 @@
 ## Dependencies
 * Express
 * Nodemon
+
+## Getting Started
+* Use command `npm run devstart`
+* Navigate to http://www.localhost:3000

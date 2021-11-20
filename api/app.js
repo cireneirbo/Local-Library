@@ -9,6 +9,13 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
+// Setting up Mongoose and MongoDB
+const mongoose = require('mongoose');                                           //Import the mongoose module
+const mongoDB = 'mongodb://127.0.0.1/my_database';                              // Store the DB origin
+mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});   //Set up default mongoose connection
+const db = mongoose.connection;                                                 //Get the default connection
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));       //Bind connection to error event (to get notification of connection errors)
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');

@@ -3,6 +3,8 @@
 ## Dependencies
 * Express
 * Nodemon
+* Mongoose
+* MongoDB
 
 ## Getting Started
 * Use command `npm run devstart`

@@ -2,9 +2,10 @@
 
 ## Dependencies
 * Express
-* Nodemon
+* Nodemon - npm library
 * Mongoose
 * MongoDB
+* dotenv - npm library
 
 ## Getting Started
 * Use command `npm run devstart`

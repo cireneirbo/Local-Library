@@ -1,5 +1,7 @@
 #! /usr/bin/env node
+require('dotenv').config();
 
+// run this script with the command : `node populatedb`
 console.log('This script populates some test books, authors, genres and bookinstances to your database. Specified database as argument - e.g.: populatedb mongodb+srv://cooluser:coolpassword@cluster0.a9azn.mongodb.net/local_library?retryWrites=true');
 
 // Get arguments passed on command line
@@ -18,7 +20,11 @@ const BookInstance = require('./models/bookinstance')
 
 
 const mongoose = require('mongoose');
-const mongoDB = userArgs[0];
+const dbUserName = process.env.MONGODB_USERNAME;
+const dbPassword = process.env.MONGODB_PASSWORD;
+const dbName = process.env.MONGODB_DBNAME;
+const mongoDB = `mongodb+srv://${dbUserName}:${dbPassword}@cluster0.zwekp.mongodb.net/${dbName}?retryWrites=true&w=majority`;   
+//const mongoDB = userArgs[0];
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { DateTime } = require('luxon');
 
 const Schema = mongoose.Schema;
 
@@ -25,8 +26,10 @@ AuthorSchema.virtual('lifespan').get(function() {
   if (this.date_of_birth) {
     lifetime_string = DateTime.fromJSDate(this.date_of_birth).toLocaleString(DateTime.DATE_MED);
   }
-  lifetime_string += ' - ';
   if (this.date_of_death) {
+    if (lifetime_string != '') {
+      lifetime_string += ' - '; // Add a dash between dates if thereis a date of birth
+    }
     lifetime_string += DateTime.fromJSDate(this.date_of_death).toLocaleString(DateTime.DATE_MED)
   }
   return lifetime_string;

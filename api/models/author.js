@@ -28,7 +28,7 @@ AuthorSchema.virtual('lifespan').get(function() {
   }
   if (this.date_of_death) {
     if (lifetime_string != '') {
-      lifetime_string += ' - '; // Add a dash between dates if thereis a date of birth
+      lifetime_string += ' - '; // Add a dash between dates if there is a date of birth
     }
     lifetime_string += DateTime.fromJSDate(this.date_of_death).toLocaleString(DateTime.DATE_MED)
   }

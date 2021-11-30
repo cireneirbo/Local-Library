@@ -156,25 +156,12 @@ exports.bookinstance_update_get = function(req, res, next) {
 
 // Handle BookInstance update on POST.
 exports.bookinstance_update_post = [
-/*
-    // Convert the genre to an array
-    (req, res, next) => {
-        if(!(req.body.genre instanceof Array)){
-            if(typeof req.body.genre==='undefined')
-            req.body.genre=[];
-            else
-            req.body.genre=new Array(req.body.genre);
-        }
-        next();
-    },*/
 
     // Validate and sanitise fields.
-    body('first_name').trim().isLength({ min: 1 }).escape().withMessage('First name must be specified.')
-        .isAlphanumeric().withMessage('First name has non-alphanumeric characters.'),
-    body('family_name').trim().isLength({ min: 1 }).escape().withMessage('Family name must be specified.')
-        .isAlphanumeric().withMessage('Family name has non-alphanumeric characters.'),
-    body('date_of_birth', 'Invalid date of birth').optional({ checkFalsy: true }).isISO8601().toDate(),
-    body('date_of_death', 'Invalid date of death').optional({ checkFalsy: true }).isISO8601().toDate(),
+    body('book', 'Book must be specified').trim().isLength({ min: 1 }).escape(),
+    body('imprint', 'Imprint must be specified').trim().isLength({ min: 1 }).escape(),
+    body('status').escape(),
+    body('due_back', 'Invalid date').optional({ checkFalsy: true }).isISO8601().toDate(),
 
     // Process request after validation and sanitization.
     (req, res, next) => {
@@ -183,27 +170,27 @@ exports.bookinstance_update_post = [
         const errors = validationResult(req);
 
         // Create an Author object with escaped/trimmed data and old id.
-        const author = new Author(
+        const bookinstance = new BookInstance(
             { 
-                first_name: req.body.first_name,
-                family_name: req.body.family_name,
-                date_of_birth: req.body.date_of_birth,
-                date_of_death: req.body.date_of_death,
+                book: req.body.book,
+                imprint: req.body.imprint,
+                status: req.body.status,
+                due_back: req.body.due_back,
                 _id:req.params.id //This is required, or a new ID will be assigned!
             }
         );
 
         if (!errors.isEmpty()) {
             // There are errors. Render form again with sanitized values/error messages.
-            res.render('author_form', { title: 'Update Author', books: results.books, author: author, errors: errors.array() });
+            res.render('bookinstance_form', { title: 'Update Book Instance', book_list: results.books, bookinstance: bookinstance, errors: errors.array() });
             return;
         }
         else {
             // Data from form is valid. Update the record.
-            Author.findByIdAndUpdate(req.params.id, author, {}, function (err, theauthor) {
+            BookInstance.findByIdAndUpdate(req.params.id, bookinstance, {}, function (err, thebookinstance) {
                 if (err) { return next(err); }
                    // Successful - redirect to author detail page.
-                   res.redirect(theauthor.url);
+                   res.redirect(thebookinstance.url);
                 });
         }
     }

@@ -17,7 +17,6 @@ exports.genre_list = function(req, res, next) {
             //Successful, so render
             res.render('genre_list', {title: 'Genre List', genre_list: list_genres});
         });
-    //res.send('NOT IMPLEMENTED: Genre list');
 };
 
 // Display detail page for a specific Genre.
